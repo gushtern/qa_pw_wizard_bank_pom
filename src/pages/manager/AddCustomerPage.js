@@ -8,7 +8,9 @@ export class AddCustomerPage {
     this.lastNameInput = page.locator('input[ng-model="lName"]');
     this.postCodeInput = page.locator('input[ng-model="postCd"]');
 
-    this.addCustomerButton = page.locator('form').getByRole('button', { name: 'Add Customer' });
+    this.addCustomerButton = page
+      .locator('form')
+      .getByRole('button', { name: 'Add Customer' });
   }
 
   async open() {
@@ -16,7 +18,7 @@ export class AddCustomerPage {
   }
 
   async waitForOpened() {
-    await this.page.waitForURL('/angularJs-protractor/BankingProject/#/manager/addCust');
+    await this.page.waitForURL('**/angularJs-protractor/BankingProject/#/manager/addCust');
   }
 
   async fillFirstName(firstName) {
@@ -31,7 +33,8 @@ export class AddCustomerPage {
     await this.postCodeInput.fill(postCode);
   }
 
-  async clickAddCustomerButton() {
+  // Main method name used in tests (mentor asked to align on this)
+  async submitAddCustomer() {
     this.page.once('dialog', async (dialog) => {
       await dialog.accept();
     });
@@ -40,6 +43,11 @@ export class AddCustomerPage {
     await expect(this.addCustomerButton).toBeEnabled();
 
     await this.addCustomerButton.click();
+  }
+
+  // Backward-compatible alias for tests that still call old name
+  async clickAddCustomerButton() {
+    await this.submitAddCustomer();
   }
 
   async reloadPage() {

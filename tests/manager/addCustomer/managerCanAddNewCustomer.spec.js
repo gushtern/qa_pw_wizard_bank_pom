@@ -43,8 +43,10 @@ test('Assert manager can add new customer', async ({ page }) => {
 
   await addCustomerPage.submitAddCustomer();
   await addCustomerPage.reloadPage();
-  await addCustomerPage.openCustomersFromHeader();
 
+  await customersListPage.open();
+  await customersListPage.waitForOpened();
+  
   await customersListPage.assertLastRowHasCustomerData(
     firstName,
     lastName,

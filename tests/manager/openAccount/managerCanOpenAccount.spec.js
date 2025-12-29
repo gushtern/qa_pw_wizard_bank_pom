@@ -35,12 +35,12 @@ test.beforeEach(async ({ page }) => {
   await addCustomerPage.fillLastName(lastName);
   await addCustomerPage.fillPostCode(postCode);
 
-  await addCustomerPage.clickAddCustomerButton();
+  await addCustomerPage.submitAddCustomer();
+  await addCustomerPage.reloadPage();
 
-// Simplified popup handling as in task  await page.reload();
 });
 
-test('Assert manager can add new customer', async ({ page }) => {
+test('Assert manager can open a new account', async ({ page }) => {
   /* 
   Test:
   1. Click [Open Account].
