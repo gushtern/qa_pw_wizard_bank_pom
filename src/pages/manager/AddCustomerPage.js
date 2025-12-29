@@ -19,6 +19,7 @@ export class AddCustomerPage {
 
   async waitForOpened() {
     await this.page.waitForURL('**/angularJs-protractor/BankingProject/#/manager/addCust');
+    await expect(this.addCustomerButton).toBeVisible();
   }
 
   async fillFirstName(firstName) {
@@ -43,11 +44,6 @@ export class AddCustomerPage {
     await expect(this.addCustomerButton).toBeEnabled();
 
     await this.addCustomerButton.click();
-  }
-
-  // Backward-compatible alias for tests that still call old name
-  async clickAddCustomerButton() {
-    await this.submitAddCustomer();
   }
 
   async reloadPage() {

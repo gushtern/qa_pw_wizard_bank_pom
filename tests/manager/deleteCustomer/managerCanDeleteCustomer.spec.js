@@ -6,21 +6,12 @@ import { BankManagerMainPage } from '../../../src/pages/manager/BankManagerMainP
 import { AddCustomerPage } from '../../../src/pages/manager/AddCustomerPage';
 import { CustomersListPage } from '../../../src/pages/manager/CustomersListPage';
 
-  /* 
-  Pre-conditons:
-  1. Open Add Customer page.
-  2. Fill the First Name.  
-  3. Fill the Last Name.
-  4. Fill the Postal Code.
-  5. Click [Add Customer].
-  */
-
 test.describe('Manager - delete customer', () => {
   let firstName;
   let lastName;
   let postCode;
 
-   test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     firstName = faker.person.firstName();
     lastName = faker.person.lastName();
     postCode = faker.location.zipCode();
@@ -29,44 +20,46 @@ test.describe('Manager - delete customer', () => {
     const bankManagerMainPage = new BankManagerMainPage(page);
     const addCustomerPage = new AddCustomerPage(page);
 
+    // 1) Go to home page
     await bankHomePage.open();
+
+    // 2) Login as Bank Manager
     await bankHomePage.clickBankManagerLoginButton();
 
+    // 3) Wait manager main page opened
+    await bankManagerMainPage.waitForOpened();
+
+    // 4) Open Add Customer page
     await bankManagerMainPage.clickAddCustomerButton();
 
+    // 5) Wait Add Customer page opened
+    await addCustomerPage.waitForOpened();
+
+    // 6) Fill customer data and submit
     await addCustomerPage.fillFirstName(firstName);
     await addCustomerPage.fillLastName(lastName);
     await addCustomerPage.fillPostCode(postCode);
-
     await addCustomerPage.submitAddCustomer();
   });
 
-  /* 
-  Test:
-  1. Open Customers page.
-  2. Click [Delete] for the row with customer name.
-  3. Assert customer row is not present in the table. 
-  4. Reload the page.
-  5. Assert customer row is not present in the table. 
-  */ 
-
   test('Assert manager can delete customer', async ({ page }) => {
-    const bankHomePage = new BankHomePage(page);
     const bankManagerMainPage = new BankManagerMainPage(page);
     const customersListPage = new CustomersListPage(page);
 
-    await bankHomePage.open();
-    await bankHomePage.clickBankManagerLoginButton();
-
+    // 1) Open Customers page from manager main page
     await bankManagerMainPage.clickCustomersButton();
 
+    // 2) Wait Customers page opened
+    await customersListPage.waitForOpened();
+
+    // 3) Delete customer row and assert it disappears
     await customersListPage.assertCustomerRowIsVisible(firstName, lastName);
     await customersListPage.deleteCustomer(firstName, lastName);
     await customersListPage.assertCustomerRowIsNotVisible(firstName, lastName);
 
+    // 4) Reload and assert it is still deleted
     await page.reload();
-
+    await customersListPage.waitForOpened();
     await customersListPage.assertCustomerRowIsNotVisible(firstName, lastName);
   });
-});  
- 
+});

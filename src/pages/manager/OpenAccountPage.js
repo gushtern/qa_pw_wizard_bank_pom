@@ -14,7 +14,8 @@ export class OpenAccountPage {
   }
 
   async waitForOpened() {
-    await this.page.waitForURL('/angularJs-protractor/BankingProject/#/manager/openAccount');
+    await this.page.waitForURL('**/angularJs-protractor/BankingProject/#/manager/openAccount');
+    await expect(this.processButton).toBeVisible();
   }
 
   async selectCustomer(customerName) {
@@ -29,7 +30,7 @@ export class OpenAccountPage {
     await this.processButton.click();
   }
 
-  async assertCurrencyDropdownHasValue(value) {
-    await expect(this.currencyDropDown).toHaveValue(value);
+  async assertCurrencyDropdownHasValue(label) {
+    await expect(this.currencyDropDown).toHaveValue(label);
   }
 }

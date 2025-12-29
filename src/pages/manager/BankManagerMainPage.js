@@ -14,7 +14,8 @@ export class BankManagerMainPage {
   }
 
   async waitForOpened() {
-    await this.page.waitForURL('/angularJs-protractor/BankingProject/#/manager');
+    await this.page.waitForURL('**/angularJs-protractor/BankingProject/#/manager');
+    await expect(this.addCustomerButton).toBeVisible();
   }
 
   async clickAddCustomerButton() {

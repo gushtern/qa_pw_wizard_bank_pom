@@ -29,7 +29,7 @@ test.beforeEach(async ({ page }) => {
   await addCustomerPage.fillFirstName(firstName);
   await addCustomerPage.fillLastName(lastName);
   await addCustomerPage.fillPostCode(postalCode);
-  await addCustomerPage.clickAddCustomerButton();
+  await addCustomerPage.submitAddCustomer();
 });
 
 test('Assert manager can search customer by Last Name', async ({ page }) => {

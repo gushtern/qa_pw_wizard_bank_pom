@@ -13,7 +13,8 @@ export class CustomersListPage {
   }
 
   async waitForOpened() {
-    await this.page.waitForURL('/angularJs-protractor/BankingProject/#/manager/list');
+    await this.page.waitForURL('**/angularJs-protractor/BankingProject/#/manager/list');
+    await expect(this.searchInput).toBeVisible();
   }
 
  async searchBy(value) {
